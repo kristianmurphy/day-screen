@@ -1,0 +1,107 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to bottom right, #333333, #444444);
+    font-family: Arial, sans-serif;
+    position: relative;
+}
+
+.container {
+    position: relative;
+    width: 80%;
+}
+
+.image-box {
+    position: relative;
+}
+
+.image-box img {
+    width: 100%;
+    height: auto;
+}
+
+.dot {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background: red;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.parameter-box {
+    position: absolute;
+    background: white;
+    border: 1px solid black;
+    padding: 10px;
+    width: 150px;
+    z-index: 10;
+}
+
+.top-parameters {
+    display: flex;
+    justify-content: space-around;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
+.bottom-parameters {
+    display: flex;
+    justify-content: space-around;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+    background: linear-gradient(to bottom right, #333333, #444444);
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    position: relative;
+    width: 80%;
+}
+
+.image-box {
+    position: relative;
+}
+
+.image-box img {
+    width: 100%;
+    height: auto;
+}
+
+.dot {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background: red;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.parameter-box {
+    display: none;
+    position: absolute;
+    background: white;
+    border: 1px solid black;
+    padding: 10px;
+    width: 150px;
+    z-index: 10;
+}
+
+.parameter-box h3 {
+    margin: 0;
+    font-size: 16px;
+}

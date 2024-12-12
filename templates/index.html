@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Boat Parameters</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="image-box">
+            <img src="{{ url_for('static', filename='images/boat.png') }}" alt="Boat Image" id="boat-image">
+            
+            <!-- Dots with links to parameter boxes -->
+            <div class="dot" style="top: 20%; left: 30%;" data-target="box1"></div>
+            <div class="dot" style="top: 40%; left: 60%;" data-target="box2"></div>
+            <!-- Add more dots as needed -->
+        </div>
+
+        <!-- Parameter boxes -->
+        <div class="parameter-box" id="box1" style="top: 10%; left: 90%;">
+            <h3>Parameter 1</h3>
+            <p>Value: 123</p>
+        </div>
+        <div class="parameter-box" id="box2" style="top: 50%; left: 90%;">
+            <h3>Parameter 2</h3>
+            <p>Value: 456</p>
+        </div>
+        <!-- Add more parameter boxes as needed -->
+    </div>
+
+    <script>
+        document.querySelectorAll('.dot').forEach(dot => {
+            dot.addEventListener('mouseover', function() {
+                const target = this.getAttribute('data-target');
+                document.getElementById(target).style.display = 'block';
+            });
+            dot.addEventListener('mouseout', function() {
+                const target = this.getAttribute('data-target');
+                document.getElementById(target).style.display = 'none';
+            });
+        });
+    </script>
+</body>
+</html>
