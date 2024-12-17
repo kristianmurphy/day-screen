@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>Boat Parameters</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
@@ -9,12 +9,12 @@
     
     <header>
         <div class="header-box">
-            <span>SYSTEM STATUS: OK</span>
-            <span>IN CONTROL: HELM</span>
+            <span>SYSTEM STATUS: {{ sys_status }}</span>
+            <span>IN CONTROL: {{ in_control }}</span>
         </div>
         <div class="header-box">
             <span id="time-span"></span>
-            <span>Wind ENE 8kts (12kts)</span>
+            <span>Wind {{ wind }}</span>
         </div>
 
 
@@ -63,17 +63,17 @@
                     <div class="parameters">
                         <div class="parameters-box">
                             <div class="parameter-title">Status</div>
-                            <span class="parameter-value">Cooling</span>
+                            <span class="parameter-value">{{ air_status }}</span>
                             <span class="parameter-unit"></span>
                         </div>
                         <div class="parameters-box">
                             <div class="parameter-title">Set</div>
-                            <span class="parameter-value">75</span>
+                            <span class="parameter-value">{{ air_set }}</span>
                             <span class="parameter-unit">&deg;F</span>
                         </div>
                         <div class="parameters-box">
                             <div class="parameter-title">Temp</div>
-                            <span class="parameter-value">75</span>
+                            <span class="parameter-value">{{ air_temp }}</span>
                             <span class="parameter-unit">&deg;F</span>
                         </div>
                     </div>
@@ -83,12 +83,12 @@
                     <div class="parameters">
                         <div class="parameters-box">
                             <div class="parameter-title">Battery 1</div>
-                            <span class="parameter-value">86</span>
+                            <span class="parameter-value">{{ battery_1 }}</span>
                             <span class="parameter-unit">%</span>
                         </div>
                         <div class="parameters-box">
                             <div class="parameter-title">Battery 2</div>
-                            <span class="parameter-value">85</span>
+                            <span class="parameter-value">{{ battery_2 }}</span>
                             <span class="parameter-unit">%</span>
                         </div>
                     </div>
@@ -98,22 +98,22 @@
                     <div class="parameters">
                         <div class="parameters-box">
                             <div class="parameter-title">Fuel</div>
-                            <span class="parameter-value">90</span>
+                            <span class="parameter-value">{{ fuel_tank }}</span>
                             <span class="parameter-unit">%</span>
                         </div>
                         <div class="parameters-box">
                             <div class="parameter-title">Freshwater</div>
-                            <span class="parameter-value">62</span>
+                            <span class="parameter-value">{{ freshwater_tank }}</span>
                             <span class="parameter-unit">%</span>
                         </div>
                         <div class="parameters-box">
                             <div class="parameter-title">Greywater</div>
-                            <span class="parameter-value">14</span>
+                            <span class="parameter-value">{{ greywater_tank }}</span>
                             <span class="parameter-unit">%</span>
                         </div>
                         <div class="parameters-box">
                             <div class="parameter-title">Blackwater</div>
-                            <span class="parameter-value">8</span>
+                            <span class="parameter-value">{{ blackwater_tank }}</span>
                             <span class="parameter-unit">%</span>
                         </div>
                     </div>

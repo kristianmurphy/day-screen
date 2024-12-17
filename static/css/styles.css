@@ -90,16 +90,19 @@ section::after{
     width:100%;
     height:auto;
 }
-.dot {
+.dot{
     width: 10px;
     height: 10px;
     background-color: var(--text-primary-color);
     border: 3px solid var(--text-secondary-color);
-    border-radius: 10px;
+    border-radius: 20px;
     position: absolute;
     transform: translate(-50%, -50%);
+    cursor:pointer;
 }
-
+.dot:hover{
+    border: 8px solid var(--text-secondary-color);
+}
 
 
 
