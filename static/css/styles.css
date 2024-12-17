@@ -1,107 +1,144 @@
-body, html {
+:root {
+    --text-primary-color:rgb(195, 201, 221);
+    --text-secondary-color:rgb(139, 144, 160);
+}
+
+body{
+    width:100vw;
+    height:100vh;
+    color: var(--text-primary-color);
+    overflow:hidden;
+    background: rgb(41,41,41);
+    background: -moz-linear-gradient(324deg, rgba(41,41,41,1) 0%, rgba(242,242,242,1) 100%);
+    background: -webkit-linear-gradient(324deg, rgba(41,41,41,1) 0%, rgba(242,242,242,1) 100%);
+    background: linear-gradient(324deg, rgb(8, 8, 22) 20%, #30303a 80%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#292929",endColorstr="#f2f2f2",GradientType=1);
+}
+
+header{
+    width:100%;
+    height:15vh;
+    display:flex;
+    color: var(--text-secondary-color);
+}
+.header-box{
+    width:50%;
+    padding: 2.5vw;
+}
+.header-box span{
+    display:block;
+    padding:.25vw;
+}
+
+
+
+
+
+nav {
+    float: left;
+    width: 8%;
     margin: 0;
-    padding: 0;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;body, html {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(to bottom right, #333333, #444444);
-    font-family: Arial, sans-serif;
-    position: relative;
 }
-
-.container {
-    position: relative;
-    width: 80%;
-}
-
-.image-box {
-    position: relative;
-}
-
-.image-box img {
-    width: 100%;
-    height: auto;
-}
-
-.dot {
-    position: absolute;
-    width: 15px;
-    height: 15px;
-    background: red;
-    border-radius: 50%;
+nav button{
+    display: table;
+    margin: 0 auto;
+    width: 5vw;
+    height: 5vw;
+    padding:0;
+    margin-bottom:0px;
+    border:none;
+    background:none;
+    color:var(--text-primary-color);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 500;
     cursor: pointer;
 }
-
-.parameter-box {
-    position: absolute;
-    background: white;
-    border: 1px solid black;
-    padding: 10px;
-    width: 150px;
-    z-index: 10;
+nav button img{
+    width: 45%;
+    height: 45%;
+    margin-bottom:3px;
 }
-
-.top-parameters {
-    display: flex;
-    justify-content: space-around;
-    position: absolute;
-    top: 0;
-    width: 100%;
+.selected{
+    filter:saturate(1000%) brightness(60%) hue-rotate(40deg); 
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
 }
-
-.bottom-parameters {
-    display: flex;
-    justify-content: space-around;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
+nav button span{
+    display:block;
 }
-
-    background: linear-gradient(to bottom right, #333333, #444444);
-    font-family: Arial, sans-serif;
+section{
+    width:100%;
+    height:70vh;
 }
-
-.container {
-    position: relative;
-    width: 80%;
+section::after{
+    content: "";
+    display: table;
+    clear: both;
 }
-
-.image-box {
-    position: relative;
+#main-container{
+    float: right;
+    padding:10px;
+    width:85%;
+    height:100%;
+    margin:0;
 }
-
-.image-box img {
-    width: 100%;
-    height: auto;
+.image-container{
+    width: 60vw;
+    position:relative; 
 }
-
+.image-container img{
+    width:100%;
+    height:auto;
+}
 .dot {
+    width: 10px;
+    height: 10px;
+    background-color: var(--text-primary-color);
+    border: 3px solid var(--text-secondary-color);
+    border-radius: 10px;
     position: absolute;
-    width: 15px;
-    height: 15px;
-    background: red;
-    border-radius: 50%;
-    cursor: pointer;
+    transform: translate(-50%, -50%);
 }
 
-.parameter-box {
-    display: none;
-    position: absolute;
-    background: white;
-    border: 1px solid black;
-    padding: 10px;
-    width: 150px;
-    z-index: 10;
+
+
+
+#details{
+    width:100%;
+    color: var(--text-secondary-color);
+    display:flex;
+}
+.details-box{
+    padding-right: 3vw;
+}
+.details-title{
+    color: var(--text-secondary-color);
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 0.5vw;
+}
+.parameters{
+    display:flex;
+}
+.parameters-box{
+    text-transform: uppercase;
+    padding: 0.5vw;
+    padding-right: 2vw;
+}
+.parameter-value{
+    color: var(--text-primary-color);
+    font-size: 30px;
+    font-weight: 500;
+}
+.parameter-unit{
+    font-size: 20px;
+    color: var(--text-secondary-color);
 }
 
-.parameter-box h3 {
-    margin: 0;
-    font-size: 16px;
+
+
+footer{
+    width: 100%;
+    height: 7vh;
 }

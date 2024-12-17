@@ -4,40 +4,144 @@
     <title>Boat Parameters</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
+
 <body>
-    <div class="container">
-        <div class="image-box">
-            <img src="{{ url_for('static', filename='images/boat.png') }}" alt="Boat Image" id="boat-image">
-            
-            <!-- Dots with links to parameter boxes -->
-            <div class="dot" style="top: 20%; left: 30%;" data-target="box1"></div>
-            <div class="dot" style="top: 40%; left: 60%;" data-target="box2"></div>
-            <!-- Add more dots as needed -->
+    
+    <header>
+        <div class="header-box">
+            <span>SYSTEM STATUS: OK</span>
+            <span>IN CONTROL: HELM</span>
+        </div>
+        <div class="header-box">
+            <span id="time-span"></span>
+            <span>Wind ENE 8kts (12kts)</span>
         </div>
 
-        <!-- Parameter boxes -->
-        <div class="parameter-box" id="box1" style="top: 10%; left: 90%;">
-            <h3>Parameter 1</h3>
-            <p>Value: 123</p>
-        </div>
-        <div class="parameter-box" id="box2" style="top: 50%; left: 90%;">
-            <h3>Parameter 2</h3>
-            <p>Value: 456</p>
-        </div>
-        <!-- Add more parameter boxes as needed -->
-    </div>
 
-    <script>
-        document.querySelectorAll('.dot').forEach(dot => {
-            dot.addEventListener('mouseover', function() {
-                const target = this.getAttribute('data-target');
-                document.getElementById(target).style.display = 'block';
-            });
-            dot.addEventListener('mouseout', function() {
-                const target = this.getAttribute('data-target');
-                document.getElementById(target).style.display = 'none';
-            });
-        });
-    </script>
+
+    </header>
+
+    <section>
+        <nav>
+            <button class="selected">
+                <img  src="{{ url_for('static', filename='images/dashboard.png') }}" alt="Dashboard" id="dashboard-image">
+                <span>Dashboard</span>
+            </button>
+            <button>
+                <img src="{{ url_for('static', filename='images/battery.png') }}" alt="Battery" id="battery-image">
+                <span>Battery</span>
+            </button>
+            <button>
+                <img src="{{ url_for('static', filename='images/air.png') }}" alt="Air" id="air-image">
+                <span>Air</span>
+            </button>
+            <button>
+                <img src="{{ url_for('static', filename='images/light.png') }}" alt="Light" id="light-image">
+                <span>Lights</span>
+            </button>
+            <button>
+                <img src="{{ url_for('static', filename='images/tank.png') }}" alt="Tank" id="tank-image">
+                <span>Tanks</span>
+            </button>
+            <button>
+                <img src="{{ url_for('static', filename='images/weather.png') }}" alt="Weather" id="weather-image">
+                <span>Weather</span>
+            </button>
+        </nav>
+
+        <div id="main-container">
+            <div class="image-container">
+                <img src="{{ url_for('static', filename='images/boat.png') }}" alt="Boat Image" id="boat-image">
+                <div class="dot" style="top: 50%; left: 60%;"></div>
+                <div class="dot" style="top: 70%; left: 30%;"></div>
+                <div class="dot" style="top: 68%; left: 45%;"></div>
+            </div>
+
+            <div id="details">
+                <div class="details-box">
+                    <span class="details-title">Air Handlers</span>
+                    <div class="parameters">
+                        <div class="parameters-box">
+                            <div class="parameter-title">Status</div>
+                            <span class="parameter-value">Cooling</span>
+                            <span class="parameter-unit"></span>
+                        </div>
+                        <div class="parameters-box">
+                            <div class="parameter-title">Set</div>
+                            <span class="parameter-value">75</span>
+                            <span class="parameter-unit">&deg;F</span>
+                        </div>
+                        <div class="parameters-box">
+                            <div class="parameter-title">Temp</div>
+                            <span class="parameter-value">75</span>
+                            <span class="parameter-unit">&deg;F</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="details-box">
+                    <span class="details-title">Battery charges</span>
+                    <div class="parameters">
+                        <div class="parameters-box">
+                            <div class="parameter-title">Battery 1</div>
+                            <span class="parameter-value">86</span>
+                            <span class="parameter-unit">%</span>
+                        </div>
+                        <div class="parameters-box">
+                            <div class="parameter-title">Battery 2</div>
+                            <span class="parameter-value">85</span>
+                            <span class="parameter-unit">%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="details-box">
+                    <span class="details-title">Tanks</span>
+                    <div class="parameters">
+                        <div class="parameters-box">
+                            <div class="parameter-title">Fuel</div>
+                            <span class="parameter-value">90</span>
+                            <span class="parameter-unit">%</span>
+                        </div>
+                        <div class="parameters-box">
+                            <div class="parameter-title">Freshwater</div>
+                            <span class="parameter-value">62</span>
+                            <span class="parameter-unit">%</span>
+                        </div>
+                        <div class="parameters-box">
+                            <div class="parameter-title">Greywater</div>
+                            <span class="parameter-value">14</span>
+                            <span class="parameter-unit">%</span>
+                        </div>
+                        <div class="parameters-box">
+                            <div class="parameter-title">Blackwater</div>
+                            <span class="parameter-value">8</span>
+                            <span class="parameter-unit">%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+    </section>
+
+    <footer>
+        
+    </footer>
+
 </body>
+
+
+<script>
+    timer();
+    function timer(){
+     now = new Date().toLocaleString();
+     document.getElementById('time-span').innerHTML = now;
+     setTimeout(timer,1000);
+    }
+</script>
+
+
+
+
 </html>
