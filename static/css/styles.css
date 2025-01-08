@@ -1,7 +1,9 @@
 :root {
     --text-primary-color:rgb(195, 201, 221);
     --text-secondary-color:rgb(139, 144, 160);
+    
 }
+
 
 body{
     width:100vw;
@@ -13,7 +15,24 @@ body{
     background: -webkit-linear-gradient(324deg, rgba(41,41,41,1) 0%, rgba(242,242,242,1) 100%);
     background: linear-gradient(324deg, rgb(8, 8, 22) 20%, #30303a 80%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#292929",endColorstr="#f2f2f2",GradientType=1);
+    font-size: 1.5em;
 }
+@media(max-width:1200px){
+    body{
+        font-size:1.2em;
+    }
+}
+@media(max-width:1000px){
+    body{
+        font-size:1em;
+    }
+}
+@media(max-width:800px){
+    body{
+        font-size:.75em;
+    }
+}
+
 
 header{
     width:100%;
@@ -52,6 +71,7 @@ nav button{
     text-transform: uppercase;
     letter-spacing: 1px;
     font-weight: 500;
+    font-size:70%;
     cursor: pointer;
 }
 nav button img{
@@ -110,6 +130,9 @@ section::after{
     width:100%;
     color: var(--text-secondary-color);
     display:flex;
+    overflow-x: scroll;
+    scrollbar-color: rgb(139, 144, 160) #30303a;
+    scrollbar-width: thin;
 }
 .details-box{
     padding-right: 3vw;
@@ -117,7 +140,7 @@ section::after{
 .details-title{
     color: var(--text-secondary-color);
     text-transform: uppercase;
-    font-size: 12px;
+    font-size: 60%;
     font-weight: 600;
     padding: 0.5vw;
 }
@@ -131,15 +154,13 @@ section::after{
 }
 .parameter-value{
     color: var(--text-primary-color);
-    font-size: 30px;
+    font-size: 120%;
     font-weight: 500;
 }
 .parameter-unit{
-    font-size: 20px;
+    font-size: 80%;
     color: var(--text-secondary-color);
 }
-
-
 
 footer{
     width: 100%;
