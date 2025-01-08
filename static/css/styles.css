@@ -143,23 +143,31 @@ section::after{
     font-size: 60%;
     font-weight: 600;
     padding: 0.5vw;
+    
 }
 .parameters{
     display:flex;
+}
+.parameters-title{
+    margin-right:2vw;
+    
 }
 .parameters-box{
     text-transform: uppercase;
     padding: 0.5vw;
     padding-right: 2vw;
+    white-space:nowrap;
 }
 .parameter-value{
     color: var(--text-primary-color);
     font-size: 120%;
     font-weight: 500;
+    
 }
 .parameter-unit{
     font-size: 80%;
     color: var(--text-secondary-color);
+    
 }
 
 footer{
