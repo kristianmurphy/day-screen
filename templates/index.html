@@ -2,11 +2,163 @@
 <html lang="en">
 <head>
     <title>Boat Parameters</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='fonts/inter/inter.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 
 <body>
     
+    <!-- Splash Screen -->
+    <div id="splash-screen">
+        <div id="splash-container">
+            <img src="{{ url_for('static', filename='images/sobe-sunset-logo-white.png') }}" alt="Sobe Sunset" id="splash-logo-l">
+            <img src="{{ url_for('static', filename='images/seaforge-white.png') }}" alt="Seaforge" id="splash-logo-s">
+        </div>
+    </div>
+
+    <!-- Top Bar -->
+    <div id="top-bar">
+        <div id="left-div">
+            <div class="top-button">
+                <img src="{{ url_for('static', filename='images/icons/home.png') }}" alt="Home" id="home-button">
+            </div>
+            <div class="top-status smalltext">SYSTEM STATUS <span class="status-box border foreground"><span id="status">OK</span> <span class="status-indicator green">●</span></span></div>
+        </div>
+        
+        <div id="logo-container">
+            <img src="{{ url_for('static', filename='images/sobe-sunset-logo-white.png') }}" alt="Sobe Sunset" id="logo">
+        </div>
+        
+        <div id="right-div">
+            <div class="top-time smalltext border foreground" id="datetime">??.??.?? ??:??:??</div>
+            <div class="top-button">
+                <img src="{{ url_for('static', filename='images/icons/settings.png') }}" alt="Settings" id="settings-button">
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <div id="workspace">
+
+        <div id="dashboard">
+            <div id="sobe-sunset-diagram" class="foreground gradient border">
+                <img src="{{ url_for('static', filename='images/boat.png') }}" alt="Sobe Sunset" id="sobe-sunset-image">
+                <div class="expand-button border" id="expand-diagram"><img src="{{ url_for('static', filename='images/icons/expand.png') }}" alt="Expand" id="expand-image"></div>
+            </div>
+            <div id="categories" class="dock">
+                <span class="category foreground border smalltext" id="category-general">
+                    GENERAL <div class="top-button"><img src="{{ url_for('static', filename='images/icons/squares.png') }}" alt=""></div>
+                </span>
+                <span class="category foreground border smalltext" id="category-general">
+                    BATTERY <div class="top-button"><img src="{{ url_for('static', filename='images/icons/battery.png') }}" alt=""></div>
+                </span>
+                <span class="category foreground border smalltext" id="category-general">
+                    TANKS <div class="top-button"><img src="{{ url_for('static', filename='images/icons/tank.png') }}" alt=""></div>
+                </span>
+                <span class="category foreground border smalltext" id="category-general">
+                    LIGHT <div class="top-button"><img src="{{ url_for('static', filename='images/icons/light.png') }}" alt=""></div>
+                </span>
+                <span class="category foreground border smalltext" id="category-general">
+                    AIR <div class="top-button"><img src="{{ url_for('static', filename='images/icons/air.png') }}" alt=""></div>
+                </span>
+                <span class="category foreground border smalltext" id="category-general">
+                    WEATHER <div class="top-button"><img src="{{ url_for('static', filename='images/icons/weather.png') }}" alt=""></div>
+                </span>
+            </div>
+            <div id="special-data" class="foreground border">
+
+                <div class="data-component" id="prototype-special-data">
+                    <div class="comp-name smalltext">Air temp</div>
+                    <div class="comp-info border background boldtext">
+                        <span class="comp-value">74</span>
+                        <span class="comp-unit secondarycolor">°F</span>
+                        <span class="comp-bar">
+                            <div class="progress-bar"></div>
+                        </span>
+                    </div>
+                </div>
+
+                
+            </div>
+        </div>
+        
+        <div id="data" class="foreground">
+            <div class="data-component" id="prototype-data">
+                <div class="comp-name smalltext">Air temp</div>
+                <div class="comp-info border background boldtext">
+                    <span class="comp-value">74</span>
+                    <span class="comp-unit secondarycolor">°F</span>
+                    <span class="comp-bar">
+                        <div class="progress-bar"></div>
+                    </span>
+                </div>
+            </div>
+            
+        </div>
+
+
+
+
+    </div>
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            setTimeout(function () {
+                document.getElementById("splash-screen").style.display = "none";
+            }, 3000); // Make sure matches splash animation duration
+        });
+    
+        function updateDateTime() {
+            const now = new Date();
+            const dd = String(now.getDate()).padStart(2, '0');
+            const mm = String(now.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+            const yy = String(now.getFullYear()).slice(-2);
+            const hh = String(now.getHours()).padStart(2, '0');
+            const min = String(now.getMinutes()).padStart(2, '0');
+            const ss = String(now.getSeconds()).padStart(2, '0');
+
+            const formattedDateTime = `${dd}.${mm}.${yy} ${hh}:${min}:${ss}`;
+            document.getElementById('datetime').textContent = formattedDateTime;
+        }
+
+        // Update immediately and then every second
+        updateDateTime();
+        setInterval(updateDateTime, 1000);
+
+
+        // Test adding data components
+        function duplicateElement(elementId, times) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                for (let i = 0; i < times; i++) {
+                    const clone = element.cloneNode(true);
+                    document.getElementById("data").appendChild(clone);
+                }
+            }
+        }
+        
+        // Example: Duplicate the first dock item 3 times after 2 seconds
+        setTimeout(() => duplicateElement("prototype-data", 5), 4000);
+
+
+        
+
+
+    </script>
+
+
+
+
+
+
+
+
+
+<!-- storage
+
     <header>
         <div class="header-box">
             <span>SYSTEM STATUS: {{ sys_status }}</span>
@@ -128,7 +280,7 @@
     <footer>
         
     </footer>
-
+    
 </body>
 
 
@@ -136,11 +288,27 @@
     timer();
     function timer(){
      now = new Date().toLocaleString();
-     document.getElementById('time-span').innerHTML = now;
+     try{
+        document.getElementById('time-span').innerHTML = now;
+     }
+     catch{
+        console.log('no time-span')
+     }
      setTimeout(timer,1000);
     }
-</script>
 
+
+
+
+
+
+
+<div class="ocean ocean-left">
+                    <img class="ocean-image" src="{{ url_for('static', filename='images/ocean.png') }}" alt="ocean Image" id="ocean-left">
+                    <img class="ocean-image flipX" src="{{ url_for('static', filename='images/ocean.png') }}" alt="ocean Image" id="ocean-right">
+                </div>
+
+-->
 
 
 
