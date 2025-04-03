@@ -11,8 +11,8 @@
     <!-- Splash Screen -->
     <div id="splash-screen">
         <div id="splash-container">
-            <img src="{{ url_for('static', filename='images/sobe-sunset-logo-white.png') }}" alt="Sobe Sunset" id="splash-logo-l">
-            <img src="{{ url_for('static', filename='images/seaforge-white.png') }}" alt="Seaforge" id="splash-logo-s">
+            <img src="{{ url_for('static', filename='images/sobe-sunset-logo-white.webp') }}" alt="Sobe Sunset" id="splash-logo-l">
+            <img src="{{ url_for('static', filename='images/seaforge-white.webp') }}" alt="Seaforge" id="splash-logo-s">
         </div>
     </div>
 
@@ -20,53 +20,55 @@
     <div id="top-bar">
         <div id="left-div">
             <div class="top-button">
-                <img src="{{ url_for('static', filename='images/icons/home.png') }}" alt="Home" id="home-button">
+                <img src="{{ url_for('static', filename='images/icons/home.webp') }}" alt="Home" id="home-button">
             </div>
             <div class="top-status smalltext">SYSTEM STATUS <span class="status-box border foreground"><span id="status">OK</span> <span class="status-indicator green">●</span></span></div>
         </div>
         
         <div id="logo-container">
-            <img src="{{ url_for('static', filename='images/sobe-sunset-logo-white.png') }}" alt="Sobe Sunset" id="logo">
+            <img src="{{ url_for('static', filename='images/sobe-sunset-logo-white.webp') }}" alt="Sobe Sunset" id="logo">
         </div>
         
         <div id="right-div">
             <div class="top-time smalltext border foreground" id="datetime">??.??.?? ??:??:??</div>
             <div class="top-button">
-                <img src="{{ url_for('static', filename='images/icons/settings.png') }}" alt="Settings" id="settings-button">
+                <img src="{{ url_for('static', filename='images/icons/settings.webp') }}" alt="Settings" id="settings-button">
             </div>
         </div>
 
     </div>
 
 
-
+    <!-- Workspace -->
     <div id="workspace">
-
+        <!-- Dashboard (Left side) -->
         <div id="dashboard">
+            <!-- Sobe Sunset diagram -->
             <div id="sobe-sunset-diagram" class="foreground gradient border">
-                <img src="{{ url_for('static', filename='images/boat.png') }}" alt="Sobe Sunset" id="sobe-sunset-image">
-                <div class="expand-button border" id="expand-diagram"><img src="{{ url_for('static', filename='images/icons/expand.png') }}" alt="Expand" id="expand-image"></div>
+                <img src="{{ url_for('static', filename='images/boat-high.webp') }}" alt="Sobe Sunset" id="sobe-sunset-image">
+                <div class="expand-button border" id="expand-diagram"><img src="{{ url_for('static', filename='images/icons/expand.webp') }}" alt="Expand" id="expand-image"></div>
             </div>
             <div id="categories" class="dock">
                 <span class="category foreground border smalltext" id="category-general">
-                    GENERAL <div class="top-button"><img src="{{ url_for('static', filename='images/icons/squares.png') }}" alt=""></div>
+                    GENERAL <div class="top-button"><img src="{{ url_for('static', filename='images/icons/squares.webp') }}" alt=""></div>
                 </span>
                 <span class="category foreground border smalltext" id="category-general">
-                    BATTERY <div class="top-button"><img src="{{ url_for('static', filename='images/icons/battery.png') }}" alt=""></div>
+                    BATTERY <div class="top-button"><img src="{{ url_for('static', filename='images/icons/battery.webp') }}" alt=""></div>
                 </span>
                 <span class="category foreground border smalltext" id="category-general">
-                    TANKS <div class="top-button"><img src="{{ url_for('static', filename='images/icons/tank.png') }}" alt=""></div>
+                    TANKS <div class="top-button"><img src="{{ url_for('static', filename='images/icons/tank.webp') }}" alt=""></div>
                 </span>
                 <span class="category foreground border smalltext" id="category-general">
-                    LIGHT <div class="top-button"><img src="{{ url_for('static', filename='images/icons/light.png') }}" alt=""></div>
+                    LIGHT <div class="top-button"><img src="{{ url_for('static', filename='images/icons/light.webp') }}" alt=""></div>
                 </span>
                 <span class="category foreground border smalltext" id="category-general">
-                    AIR <div class="top-button"><img src="{{ url_for('static', filename='images/icons/air.png') }}" alt=""></div>
+                    AIR <div class="top-button"><img src="{{ url_for('static', filename='images/icons/air.webp') }}" alt=""></div>
                 </span>
                 <span class="category foreground border smalltext" id="category-general">
-                    WEATHER <div class="top-button"><img src="{{ url_for('static', filename='images/icons/weather.png') }}" alt=""></div>
+                    WEATHER <div class="top-button"><img src="{{ url_for('static', filename='images/icons/weather.webp') }}" alt=""></div>
                 </span>
             </div>
+            <!-- Pinned/special data -->
             <div id="special-data" class="foreground border">
 
                 <div class="data-component" id="prototype-special-data">
@@ -84,6 +86,7 @@
             </div>
         </div>
         
+        <!-- Data column (Right side)-->
         <div id="data" class="foreground">
             <div class="data-component" id="prototype-data">
                 <div class="comp-name smalltext">Air temp</div>
@@ -103,14 +106,13 @@
 
     </div>
 
-
+    <!-- Javascript -->
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             setTimeout(function () {
                 document.getElementById("splash-screen").style.display = "none";
             }, 3000); // Make sure matches splash animation duration
         });
-    
         function updateDateTime() {
             const now = new Date();
             const dd = String(now.getDate()).padStart(2, '0');
@@ -123,11 +125,12 @@
             const formattedDateTime = `${dd}.${mm}.${yy} ${hh}:${min}:${ss}`;
             document.getElementById('datetime').textContent = formattedDateTime;
         }
-
         // Update immediately and then every second
         updateDateTime();
         setInterval(updateDateTime, 1000);
 
+
+        
 
         // Test adding data components
         function duplicateElement(elementId, times) {
@@ -176,34 +179,34 @@
     <section>
         <nav>
             <button class="selected">
-                <img  src="{{ url_for('static', filename='images/dashboard.png') }}" alt="Dashboard" id="dashboard-image">
+                <img  src="{{ url_for('static', filename='images/dashboard.webp') }}" alt="Dashboard" id="dashboard-image">
                 <span>Dashboard</span>
             </button>
             <button>
-                <img src="{{ url_for('static', filename='images/battery.png') }}" alt="Battery" id="battery-image">
+                <img src="{{ url_for('static', filename='images/battery.webp') }}" alt="Battery" id="battery-image">
                 <span>Battery</span>
             </button>
             <button>
-                <img src="{{ url_for('static', filename='images/air.png') }}" alt="Air" id="air-image">
+                <img src="{{ url_for('static', filename='images/air.webp') }}" alt="Air" id="air-image">
                 <span>Air</span>
             </button>
             <button>
-                <img src="{{ url_for('static', filename='images/light.png') }}" alt="Light" id="light-image">
+                <img src="{{ url_for('static', filename='images/light.webp') }}" alt="Light" id="light-image">
                 <span>Lights</span>
             </button>
             <button>
-                <img src="{{ url_for('static', filename='images/tank.png') }}" alt="Tank" id="tank-image">
+                <img src="{{ url_for('static', filename='images/tank.webp') }}" alt="Tank" id="tank-image">
                 <span>Tanks</span>
             </button>
             <button>
-                <img src="{{ url_for('static', filename='images/weather.png') }}" alt="Weather" id="weather-image">
+                <img src="{{ url_for('static', filename='images/weather.webp') }}" alt="Weather" id="weather-image">
                 <span>Weather</span>
             </button>
         </nav>
 
         <div id="main-container">
             <div class="image-container">
-                <img src="{{ url_for('static', filename='images/boat.png') }}" alt="Boat Image" id="boat-image">
+                <img src="{{ url_for('static', filename='images/boat.webp') }}" alt="Boat Image" id="boat-image">
                 <div class="dot" style="top: 50%; left: 60%;"></div>
                 <div class="dot" style="top: 70%; left: 30%;"></div>
                 <div class="dot" style="top: 68%; left: 45%;"></div>
@@ -304,8 +307,8 @@
 
 
 <div class="ocean ocean-left">
-                    <img class="ocean-image" src="{{ url_for('static', filename='images/ocean.png') }}" alt="ocean Image" id="ocean-left">
-                    <img class="ocean-image flipX" src="{{ url_for('static', filename='images/ocean.png') }}" alt="ocean Image" id="ocean-right">
+                    <img class="ocean-image" src="{{ url_for('static', filename='images/ocean.webp') }}" alt="ocean Image" id="ocean-left">
+                    <img class="ocean-image flipX" src="{{ url_for('static', filename='images/ocean.webp') }}" alt="ocean Image" id="ocean-right">
                 </div>
 
 -->
