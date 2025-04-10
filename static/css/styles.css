@@ -58,6 +58,15 @@ html, body {
 .secondarycolor{ /* Secondary Color Text */
     color: var(--text-secondary-color);
 }
+.boxshadow{
+    box-shadow: 
+    6px 6px 6px rgba(0, 0, 0, 0.5),      /* outer shadow */
+    inset 6px 6px 12px rgba(0, 0, 0, 0.4);  /* inner (inset) shadow */
+}
+.margin-top{
+    margin-top:1rem;
+}
+
 
 .red{
     color:rgb(255,0,0);
@@ -245,11 +254,16 @@ img { display: block; }
     gap: 10px;
     cursor:pointer;
 }
-.category:hover{
+.category:hover, .category:hover .top-button{
     filter:invert(1);
 }
-.category:hover .top-button{
-    filter:invert(1);
+.selected{
+    background-color:rgb(255,255,255);
+    background:rgb(255,255,255);
+    color:rgb(0,0,0);
+}
+.selected:hover, .selected:hover .top-button{
+    filter:none;
 }
 
 
@@ -262,21 +276,32 @@ img { display: block; }
 
 
 
-#data{
+#table-container{
     width:40%;
-    
     overflow:hidden;
     padding:12px;
     border-left: var(--border-color) .03rem solid;
+    
 }
+.data-container{
+    width: 100%;
+    height:60%;
+    position:relative;
 
+}
 .data-component{
     float:left;
-    width:10rem;
-    height:fit-content;
+    width:12rem;
+    height:5rem;
+    flex-direction: column; /* Align content vertically */
+    justify-content: flex-end; /* Push content to the bottom */
     justify-content: center;
     align-items: center;
     margin-bottom:1rem;
+}
+.comp-value{
+    text-overflow: ellipsis;
+    max-width:12rem;
 }
 .comp-name{
     margin-left:10px;
@@ -284,13 +309,56 @@ img { display: block; }
 }
 .comp-info{
     padding:10px;
-    width:200px;
+    width:230px;
     min-height:75px;
+    overflow:hidden;
+}
+
+
+
+.pagination{
+    width:100%;
+    bottom:0;
+    display: flex;              /* Use flexbox layout */
+    justify-content: center;    /* Horizontally center the items */
+    align-items: center;
+    padding-top: 20px;
+}
+.pagination > a{
+    text-decoration: none;
+    color:white !important;
+}
+.pagination > span{
+    margin:10px;
 }
 
 
 
 
+.gone{
+    display:none;
+}
+#alarm-box{
+    width:400px;
+    height:400px;
+    position:absolute;
+    z-index:2;
+    margin:.5rem;
+    
+}
+#alarm-test{
+    cursor:pointer;
+}
+
+.noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+       -khtml-user-select: none; /* Konqueror HTML */
+         -moz-user-select: none; /* Old versions of Firefox */
+          -ms-user-select: none; /* Internet Explorer/Edge */
+              user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome, Edge, Opera and Firefox */
+}
 
 /* Storage 
 

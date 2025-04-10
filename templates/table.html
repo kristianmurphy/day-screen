@@ -1,0 +1,37 @@
+<h2 class="thintext">{{ subsystem }}</h2> 
+{% if rows %}
+    <div class="data-container">
+    {% for row in rows %}
+        <div class="data-component" id="prototype-special-data">
+            <div class="comp-name smalltext">{{ row.description }}</div>
+            <div class="comp-info border background boldtext">
+                <span class="comp-value">{{ row.cur_state }}</span>
+                <span class="comp-unit secondarycolor">{{ row.display_units }}</span>
+                <span class="comp-bar">
+                    <div class="progress-bar"></div>
+                </span>
+            </div>
+        </div>                    
+    {% endfor %}
+    </div>
+{% else %}
+    <tr><td colspan="3">No data available for this subsystem.</td></tr>
+{% endif %}
+
+<div class="pagination">
+    {% if page > 0 %}
+        <a href="#" onclick="loadPage({{ page - 1 }}, '{{ subsystem }}')">&lt</a>
+    {% endif %}
+
+    <span class="thintext secondarycolor"> Page {{ page + 1 }} </span>
+
+    <a href="#" onclick="loadPage({{ page + 1 }}, '{{ subsystem }}')">&gt</a>
+</div>
+
+
+<!-- Storage
+ <span>Page {{ page + 1 }} of {{ total_pages }}</span>
+{% if page + 1 < total_pages %}
+    a href="#" onclick="loadPage({{ page + 1 }})">&gt</a>
+{% endif %}
+-->

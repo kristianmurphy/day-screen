@@ -1,0 +1,8 @@
+
+
+
+{% if status > 0 %}
+    <div class="top-status smalltext">GENERAL ALARM <span class="status-box border foreground"><span id="status">FAULT</span> <span class="status-indicator red">●</span></span></div>
+{% else %}
+    <div class="top-status smalltext">GENERAL ALARM <span class="status-box border foreground"><span id="status">OK</span> <span class="status-indicator green">●</span></span></div>
+{% endif %}

@@ -9,7 +9,7 @@
 <body>
     
     <!-- Splash Screen -->
-    <div id="splash-screen">
+    <div id="splash-screen" class="noselect">
         <div id="splash-container">
             <img src="{{ url_for('static', filename='images/sobe-sunset-logo-white.webp') }}" alt="Sobe Sunset" id="splash-logo-l">
             <img src="{{ url_for('static', filename='images/seaforge-white.webp') }}" alt="Seaforge" id="splash-logo-s">
@@ -17,12 +17,21 @@
     </div>
 
     <!-- Top Bar -->
-    <div id="top-bar">
+    <div id="top-bar" class="noselect">
         <div id="left-div">
             <div class="top-button">
                 <img src="{{ url_for('static', filename='images/icons/home.webp') }}" alt="Home" id="home-button">
             </div>
-            <div class="top-status smalltext">SYSTEM STATUS <span class="status-box border foreground"><span id="status">OK</span> <span class="status-indicator green">●</span></span></div>
+            <div id="alarm-container">
+                <div id="alarm-test" onclick="toggleAlarms()"></div>
+                <div id="alarm-box" class="foreground border boxshadow">
+                    <div>Currently Active Alarms:</div>
+                    <div class="smalltext">--test--</div>
+                    <div class="margin-top">Past Alarms:</div>
+                    <div class="smalltext">--test--</div>
+                </div>
+            </div>
+            
         </div>
         
         <div id="logo-container">
@@ -49,22 +58,22 @@
                 <div class="expand-button border" id="expand-diagram"><img src="{{ url_for('static', filename='images/icons/expand.webp') }}" alt="Expand" id="expand-image"></div>
             </div>
             <div id="categories" class="dock">
-                <span class="category foreground border smalltext" id="category-general">
-                    GENERAL <div class="top-button"><img src="{{ url_for('static', filename='images/icons/squares.webp') }}" alt=""></div>
+                <span class="category foreground border smalltext" onclick="change_subsystem(this, 'Solar Power System')" id="category-general">
+                    SOLAR <div class="top-button"><img src="{{ url_for('static', filename='images/icons/squares.webp') }}" alt=""></div>
                 </span>
-                <span class="category foreground border smalltext" id="category-general">
+                <span class="category foreground border smalltext" onclick="change_subsystem(this, 'Stbd Batt')" id="category-general">
                     BATTERY <div class="top-button"><img src="{{ url_for('static', filename='images/icons/battery.webp') }}" alt=""></div>
                 </span>
-                <span class="category foreground border smalltext" id="category-general">
+                <span class="category foreground border smalltext" onclick="change_subsystem(this, 'Tanks')" id="category-general">
                     TANKS <div class="top-button"><img src="{{ url_for('static', filename='images/icons/tank.webp') }}" alt=""></div>
                 </span>
-                <span class="category foreground border smalltext" id="category-general">
+                <span class="category foreground border smalltext" onclick="change_subsystem(this, 'System')" id="category-general">
                     LIGHT <div class="top-button"><img src="{{ url_for('static', filename='images/icons/light.webp') }}" alt=""></div>
                 </span>
-                <span class="category foreground border smalltext" id="category-general">
+                <span class="category foreground border smalltext" onclick="change_subsystem(this, 'Air Handlers')" id="category-general">
                     AIR <div class="top-button"><img src="{{ url_for('static', filename='images/icons/air.webp') }}" alt=""></div>
                 </span>
-                <span class="category foreground border smalltext" id="category-general">
+                <span class="category foreground border smalltext" onclick="change_subsystem(this, '')" id="category-general">
                     WEATHER <div class="top-button"><img src="{{ url_for('static', filename='images/icons/weather.webp') }}" alt=""></div>
                 </span>
             </div>
@@ -87,21 +96,9 @@
         </div>
         
         <!-- Data column (Right side)-->
-        <div id="data" class="foreground">
-            <div class="data-component" id="prototype-data">
-                <div class="comp-name smalltext">Air temp</div>
-                <div class="comp-info border background boldtext">
-                    <span class="comp-value">74</span>
-                    <span class="comp-unit secondarycolor">°F</span>
-                    <span class="comp-bar">
-                        <div class="progress-bar"></div>
-                    </span>
-                </div>
-            </div>
+        <div id="table-container" class="foreground">
             
         </div>
-
-
 
 
     </div>
@@ -129,8 +126,15 @@
         updateDateTime();
         setInterval(updateDateTime, 1000);
 
-
-        
+        function toggleAlarms(){
+            alarm_box = document.getElementById("alarm-box")
+            if(alarm_box.classList.contains('gone')){
+                alarm_box.classList.remove('gone');
+            }else{
+                alarm_box.classList.add('gone');
+            }
+        }
+        toggleAlarms();
 
         // Test adding data components
         function duplicateElement(elementId, times) {
@@ -143,176 +147,62 @@
             }
         }
         
-        // Example: Duplicate the first dock item 3 times after 2 seconds
         setTimeout(() => duplicateElement("prototype-data", 5), 4000);
 
-
+        const categories = document.querySelectorAll('.category');
+        var cur_subsystem = ""
         
+        function change_subsystem(clicked_elem, chosen_subsystem) {
+            categories.forEach(category => {
+                category.classList.remove('selected');
+            });
+            clicked_elem.classList.add('selected');
+            cur_subsystem = chosen_subsystem
+            loadPage(0, chosen_subsystem)
+        }
+
+        const state = {
+            page: 0,
+            subsystem: "Stbd Batt",
+            isLoading: false
+        };
+        function loadPage(page, subsystem) {
+            state.page = page;
+            state.subsystem = subsystem;
+            //if (state.isLoading) return; // Prevent overlap
+            state.isLoading = true;
+            
+
+            console.log("Calling  loadPage in Index...");
+            fetch(`/table_partial?page=${page}&subsystem=${encodeURIComponent(subsystem)}`)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('table-container').innerHTML = html;
+                })
+                .finally(() => {
+                    state.isLoading = false;
+                });
+        }
+        loadPage(0, "")
+
+        function alarm_test() {          
+            fetch(`/alarm-test`)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('alarm-test').innerHTML = html;
+                })
+        }
+
+        setInterval(() => {
+            if (!state.isLoading) {
+                alarm_test()
+                loadPage(state.page, state.subsystem);
+            }
+        }, 2000);
+        
+
 
 
     </script>
-
-
-
-
-
-
-
-
-
-<!-- storage
-
-    <header>
-        <div class="header-box">
-            <span>SYSTEM STATUS: {{ sys_status }}</span>
-            <span>IN CONTROL: {{ in_control }}</span>
-        </div>
-        <div class="header-box">
-            <span id="time-span"></span>
-            <span>Wind {{ wind }}</span>
-        </div>
-
-
-
-    </header>
-
-    <section>
-        <nav>
-            <button class="selected">
-                <img  src="{{ url_for('static', filename='images/dashboard.webp') }}" alt="Dashboard" id="dashboard-image">
-                <span>Dashboard</span>
-            </button>
-            <button>
-                <img src="{{ url_for('static', filename='images/battery.webp') }}" alt="Battery" id="battery-image">
-                <span>Battery</span>
-            </button>
-            <button>
-                <img src="{{ url_for('static', filename='images/air.webp') }}" alt="Air" id="air-image">
-                <span>Air</span>
-            </button>
-            <button>
-                <img src="{{ url_for('static', filename='images/light.webp') }}" alt="Light" id="light-image">
-                <span>Lights</span>
-            </button>
-            <button>
-                <img src="{{ url_for('static', filename='images/tank.webp') }}" alt="Tank" id="tank-image">
-                <span>Tanks</span>
-            </button>
-            <button>
-                <img src="{{ url_for('static', filename='images/weather.webp') }}" alt="Weather" id="weather-image">
-                <span>Weather</span>
-            </button>
-        </nav>
-
-        <div id="main-container">
-            <div class="image-container">
-                <img src="{{ url_for('static', filename='images/boat.webp') }}" alt="Boat Image" id="boat-image">
-                <div class="dot" style="top: 50%; left: 60%;"></div>
-                <div class="dot" style="top: 70%; left: 30%;"></div>
-                <div class="dot" style="top: 68%; left: 45%;"></div>
-            </div>
-
-            <div id="details">
-                <div class="details-box">
-                    <span class="details-title">Air Handlers</span>
-                    <div class="parameters">
-                        <div class="parameters-box">
-                            <div class="parameter-title">Status</div>
-                            <span class="parameter-value">{{ air_status }}</span>
-                            <span class="parameter-unit"></span>
-                        </div>
-                        <div class="parameters-box">
-                            <div class="parameter-title">Set</div>
-                            <span class="parameter-value">{{ air_set }}</span>
-                            <span class="parameter-unit">&deg;F</span>
-                        </div>
-                        <div class="parameters-box">
-                            <div class="parameter-title">Temp</div>
-                            <span class="parameter-value">{{ air_temp }}</span>
-                            <span class="parameter-unit">&deg;F</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="details-box">
-                    <span class="details-title">Battery charges</span>
-                    <div class="parameters">
-                        <div class="parameters-box">
-                            <div class="parameter-title">Battery 1</div>
-                            <span class="parameter-value">{{ battery_1 }}</span>
-                            <span class="parameter-unit">%</span>
-                        </div>
-                        <div class="parameters-box">
-                            <div class="parameter-title">Battery 2</div>
-                            <span class="parameter-value">{{ battery_2 }}</span>
-                            <span class="parameter-unit">%</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="details-box">
-                    <span class="details-title">Tanks</span>
-                    <div class="parameters">
-                        <div class="parameters-box">
-                            <div class="parameter-title">Fuel</div>
-                            <span class="parameter-value">{{ fuel_tank }}</span>
-                            <span class="parameter-unit">%</span>
-                        </div>
-                        <div class="parameters-box">
-                            <div class="parameter-title">Freshwater</div>
-                            <span class="parameter-value">{{ freshwater_tank }}</span>
-                            <span class="parameter-unit">%</span>
-                        </div>
-                        <div class="parameters-box">
-                            <div class="parameter-title">Greywater</div>
-                            <span class="parameter-value">{{ greywater_tank }}</span>
-                            <span class="parameter-unit">%</span>
-                        </div>
-                        <div class="parameters-box">
-                            <div class="parameter-title">Blackwater</div>
-                            <span class="parameter-value">{{ blackwater_tank }}</span>
-                            <span class="parameter-unit">%</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-
-    </section>
-
-    <footer>
-        
-    </footer>
-    
-</body>
-
-
-<script>
-    timer();
-    function timer(){
-     now = new Date().toLocaleString();
-     try{
-        document.getElementById('time-span').innerHTML = now;
-     }
-     catch{
-        console.log('no time-span')
-     }
-     setTimeout(timer,1000);
-    }
-
-
-
-
-
-
-
-<div class="ocean ocean-left">
-                    <img class="ocean-image" src="{{ url_for('static', filename='images/ocean.webp') }}" alt="ocean Image" id="ocean-left">
-                    <img class="ocean-image flipX" src="{{ url_for('static', filename='images/ocean.webp') }}" alt="ocean Image" id="ocean-right">
-                </div>
-
--->
-
-
 
 </html>
