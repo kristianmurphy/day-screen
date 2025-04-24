@@ -2,8 +2,8 @@
 {% if rows %}
     <div class="data-container">
     {% for row in rows %}
-        <div class="data-component" id="prototype-special-data">
-            <div class="comp-name smalltext">{{ row.description }}</div>
+        <div class="data-component" id="{{ row.parameter_id }}">
+            <div class="comp-name-container" onclick="toggleParam(this.parentElement.id)"><span class="pin-container">+</span><span class="comp-name smalltext"> {{ row.description }}</span></div>
             <div class="comp-info border background boldtext">
                 <span class="comp-value">{{ row.cur_state }}</span>
                 <span class="comp-unit secondarycolor">{{ row.display_units }}</span>

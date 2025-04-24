@@ -4,6 +4,7 @@
     <title>Boat Parameters</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='fonts/inter/inter.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    
 </head>
 
 <body>
@@ -80,17 +81,9 @@
             <!-- Pinned/special data -->
             <div id="special-data" class="foreground border">
 
-                <div class="data-component" id="prototype-special-data">
-                    <div class="comp-name smalltext">Air temp</div>
-                    <div class="comp-info border background boldtext">
-                        <span class="comp-value">74</span>
-                        <span class="comp-unit secondarycolor">°F</span>
-                        <span class="comp-bar">
-                            <div class="progress-bar"></div>
-                        </span>
-                    </div>
-                </div>
+                
 
+                <div id="paramList"></div>
                 
             </div>
         </div>
@@ -103,106 +96,10 @@
 
     </div>
 
-    <!-- Javascript -->
+    <!-- Javascript testing -->
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            setTimeout(function () {
-                document.getElementById("splash-screen").style.display = "none";
-            }, 3000); // Make sure matches splash animation duration
-        });
-        function updateDateTime() {
-            const now = new Date();
-            const dd = String(now.getDate()).padStart(2, '0');
-            const mm = String(now.getMonth() + 1).padStart(2, '0'); // Months are 0-based
-            const yy = String(now.getFullYear()).slice(-2);
-            const hh = String(now.getHours()).padStart(2, '0');
-            const min = String(now.getMinutes()).padStart(2, '0');
-            const ss = String(now.getSeconds()).padStart(2, '0');
-
-            const formattedDateTime = `${dd}.${mm}.${yy} ${hh}:${min}:${ss}`;
-            document.getElementById('datetime').textContent = formattedDateTime;
-        }
-        // Update immediately and then every second
-        updateDateTime();
-        setInterval(updateDateTime, 1000);
-
-        function toggleAlarms(){
-            alarm_box = document.getElementById("alarm-box")
-            if(alarm_box.classList.contains('gone')){
-                alarm_box.classList.remove('gone');
-            }else{
-                alarm_box.classList.add('gone');
-            }
-        }
-        toggleAlarms();
-
-        // Test adding data components
-        function duplicateElement(elementId, times) {
-            const element = document.getElementById(elementId);
-            if (element) {
-                for (let i = 0; i < times; i++) {
-                    const clone = element.cloneNode(true);
-                    document.getElementById("data").appendChild(clone);
-                }
-            }
-        }
-        
-        setTimeout(() => duplicateElement("prototype-data", 5), 4000);
-
-        const categories = document.querySelectorAll('.category');
-        var cur_subsystem = ""
-        
-        function change_subsystem(clicked_elem, chosen_subsystem) {
-            categories.forEach(category => {
-                category.classList.remove('selected');
-            });
-            clicked_elem.classList.add('selected');
-            cur_subsystem = chosen_subsystem
-            loadPage(0, chosen_subsystem)
-        }
-
-        const state = {
-            page: 0,
-            subsystem: "Stbd Batt",
-            isLoading: false
-        };
-        function loadPage(page, subsystem) {
-            state.page = page;
-            state.subsystem = subsystem;
-            //if (state.isLoading) return; // Prevent overlap
-            state.isLoading = true;
-            
-
-            console.log("Calling  loadPage in Index...");
-            fetch(`/table_partial?page=${page}&subsystem=${encodeURIComponent(subsystem)}`)
-                .then(response => response.text())
-                .then(html => {
-                    document.getElementById('table-container').innerHTML = html;
-                })
-                .finally(() => {
-                    state.isLoading = false;
-                });
-        }
-        loadPage(0, "")
-
-        function alarm_test() {          
-            fetch(`/alarm-test`)
-                .then(response => response.text())
-                .then(html => {
-                    document.getElementById('alarm-test').innerHTML = html;
-                })
-        }
-
-        setInterval(() => {
-            if (!state.isLoading) {
-                alarm_test()
-                loadPage(state.page, state.subsystem);
-            }
-        }, 2000);
-        
-
-
-
     </script>
+    <script type="text/javascript" src="{{ url_for('static', filename='scripts/src.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='scripts/exec.js') }}"></script>
 
 </html>

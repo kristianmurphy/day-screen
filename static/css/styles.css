@@ -292,7 +292,7 @@ img { display: block; }
 .data-component{
     float:left;
     width:12rem;
-    height:5rem;
+    
     flex-direction: column; /* Align content vertically */
     justify-content: flex-end; /* Push content to the bottom */
     justify-content: center;
@@ -313,6 +313,14 @@ img { display: block; }
     min-height:75px;
     overflow:hidden;
 }
+.comp-name-container{
+    height: 2rem;
+    display: flex;
+    justify-content: flex-start;
+    position:relative;
+    overflow:hidden;
+    cursor:pointer;
+}
 
 
 
@@ -330,6 +338,11 @@ img { display: block; }
 }
 .pagination > span{
     margin:10px;
+}
+
+
+.pin-container{
+    margin:0;
 }
 
 
