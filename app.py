@@ -1,6 +1,10 @@
-# App.py
+#==============================
+# App.py - DAY-SCREEN MAIN FILE
+#==============================
 
 import sys, os, csv, json, threading, time, math
+from datetime import datetime
+
 sys.path.insert(2, '/home/s3svc/Desktop/Sobe_Sunset/Commissioning/Software/VCC/run')
 sys.path.insert(3, '/home/s3svc/Desktop/Sobe_Sunset/Commissioning/Software/Classes')
 
@@ -8,83 +12,202 @@ from sobe_classes_vcc import vccClass
 from vc_header import VCC_ID, config_file
 
 from flask import Flask, request, render_template, jsonify
-
 app = Flask(__name__)
-PINNED_DATA_FILE = '/home/s3svc/Desktop/Sobe_Sunset/Commissioning/Software/VCC/frontend/day_screen/data/custom-lists.json'
+
+DATA_PATH = '/home/s3svc/Desktop/Sobe_Sunset/Commissioning/Software/VCC/frontend/day_screen/data'
 
 
+#==============================
+# Initialize VCC
 
 def get_csv_config_info(key):
     # config_file = '/home/s3svc/Desktop/Sobe_Sunset/Commissioning/Configuration/CX_config.csv'
     with open(config_file, 'r') as f:
         reader = csv.DictReader(f)
-        
         for row_dict in reader:
             if key in row_dict.keys():
                 info = row_dict[key]
                 # print(info)
                 return info
-
     return None
 
 VCC_IP = get_csv_config_info('vcc_ip')
 VCC = vccClass(VCC_ID, VCC_IP, database=True, frontend=True)
 
-param_values = {}
-pinned_params = {}
+#==============================
+# Initialize cached layouts
 
-def fetch_column_names(table_name):
-    query_str = "SELECT column_name FROM information_schema.columns WHERE table_name = '"+ table_name +"';"
-    results = VCC.Database.execute_raw_sql(query_str)
-    column_names = [col[0] for col in results]
-    return column_names
-
-def fetch_subsystems():
-    query_str = f"SELECT DISTINCT subsystem FROM cx_table;"
-    results = VCC.Database.execute_raw_sql(query_str)
-    cols = [col[0] for col in results]
-    subsystems = cols
-    return subsystems
-
-
-def fetch_param_values():
-    global param_values
-    #while True:
-    query_str = f"SELECT v.* FROM value_table v JOIN cx_table c ON v.parameter_id = c.parameter_id WHERE c.subsystem = 'Air Handlers';"
-    results = VCC.Database.execute_raw_sql(query_str)
-    #column_names = [col[0] for col in results]
-    param_values = results
-
-
-
-
-
-
-def load_data():
-    if os.path.exists(PINNED_DATA_FILE):
-        with open(PINNED_DATA_FILE, 'r') as f:
+def load_data(json_name):
+    path = DATA_PATH + "/" + json_name + ".json"
+    if os.path.exists(path):
+        with open(path, 'r') as f:
             return json.load(f)
-    return {"parameter_ids": []}
+    return None
+
+layouts_cache = {}
+
+def load_layouts_cache():
+    global layouts_cache
+    layouts_cache = load_data("layouts")
+    return
+
+#load_layouts() # Call this whenever re-cache needed (after edit)
+
+
+def save_layouts_cache():
+    path = DATA_PATH + "/" + "layouts" + ".json"
+    try:
+        now_formatted = datetime.now().strftime("%y-%m-%d %H:%M")
+
+        # Update the last_updated field
+        if 'info' in layouts_cache:
+            layouts_cache['info']['last_updated'] = now_formatted
+
+        # Write the updated cache to the JSON file
+        with open(path, 'w', encoding='utf-8') as f:
+            json.dump(layouts_cache, f, indent=4)
+
+        print("Layouts cache saved successfully.")
+        return True
+    except Exception as e:
+        print(f"Error saving layouts cache: {e}")
+        return False
 
 
 
-#threading.Thread(target=fetch_param_values, daemon=True).start()
-#fetch_param_values()
-#param_values =fetch_column_names("value_table")
-#query_str = f"SELECT COUNT(*) FROM cx_table;"
-#results = VCC.Database.execute_raw_sql(query_str)
-#param_values = results
+#==============================
+# Checking from client for update in certain layout
 
-@app.route("/table_partial")
-def table_partial():
+@app.route("/check-layout-update")
+def check_layout_update():
+    layout_name = request.args.get("layout_name")
+    client_version = int(request.args.get("version", 0))
+
+    layout_entry = layouts_cache["layouts"].get(layout_name)
+    if not layout_entry:
+        return {"error": "unknown layout"}, 404
+
+    return {
+        "update_required": layout_entry["version"] > client_version,
+        "version": layout_entry["version"]
+    }
+
+
+
+#==============================
+# Render layout menu
+
+@app.route("/edit_layout")
+def edit_layout():
+    layout_name = request.args.get("layout_name")
+
+@app.route("/create_layout")
+def create_layout():
+    global layouts_cache
+    name = request.args.get("name")
+    #if not name:
+    #    return jsonify({'error': 'No layout name provided'}), 400
+
+    # Check if a layout with the same name already exists
+    if any(layout['name'] == name for layout in layouts_cache['layouts']):
+        return jsonify({'error': 'Layout name already exists'}), 400
+
+    # Generate current timestamp
+    now = datetime.now().strftime("%y-%m-%d %H:%M")
+
+    # Create the new layout structure
+    new_layout = {
+        "name": name,
+        "date_created": now,
+        "date_updated": now,
+        "scale": 100,
+        "contents": []
+    }
+
+    # Insert at the top of the list
+    layouts_cache['layouts'].insert(0, new_layout)
+
+    # Save to JSON file
+    save_layouts_cache()
+
+    return jsonify({'message': 'Layout created', 'layout': new_layout}), 200
+
+@app.route("/delete_layout")
+def delete_layout():
+    global layouts_cache
+    layout_name = request.args.get("layout_name")
+    if not layout_name:
+        return jsonify({'error': 'No layout name provided'}), 400
+
+    # Find the layout to delete
+    layout_to_delete = next((layout for layout in layouts_cache['layouts'] if layout['name'] == layout_name), None)
+    if not layout_to_delete:
+        return jsonify({'error': 'Layout not found'}), 404
+
+    # Remove the layout from the list
+    layouts_cache['layouts'].remove(layout_to_delete)
+
+    # Save to JSON file
+    save_layouts_cache()
+
+    return jsonify({'message': 'Layout deleted', 'layout': layout_to_delete}), 200
+
+#==============================
+# Render layout menu
+
+@app.route("/layout_list")
+def layout_list():
+    global layouts_cache
+    load_layouts_cache()
+    currentLayout = request.args.get("current_layout")
+    starlayout = request.args.get("star_layout")
+    layoutList = layouts_cache["layouts"]
+    return render_template(
+        "layouts.html",
+        layouts = layoutList,
+        star_layout = starlayout,
+        currentLayout=currentLayout
+    )
+
+
+#==============================
+# Load widget library from separate html file - store in index.html and clone
+
+@app.route("/widget_library")
+def widget_library():
+    return render_template(
+        "widget-library.html"
+    )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#==============================
+# Load Table
+
+@app.route("/browse_subsystem")
+def browse_subsystem():
     page = int(request.args.get("page", 0))
     subsystem = request.args.get("subsystem", "")
     page_size = int(request.args.get("size", 8))
+    search_string = ""
 
     query_str = "SELECT c.description, v.cur_state, c.display_units, c.parameter_id FROM value_table v " \
             "JOIN cx_table c ON v.parameter_id = c.parameter_id " \
             "WHERE c.subsystem = '" + str(subsystem) + "' " \
             "LIMIT " + str(page_size) + " OFFSET " + str(page * page_size) + ";"
+    
     results = VCC.Database.execute_raw_sql(query_str)
     rows = []
     if results:
@@ -96,16 +219,9 @@ def table_partial():
             "parameter_id": r[3]
     })
         
-    # Query to get the total count of parameters for the given subsystem
-    #count_query = " SELECT COUNT(*) " \
-    #    "FROM value_table v " \
-    #    "JOIN cx_table c ON v.parameter_id = c.parameter_id "\
-    #    "WHERE c.subsystem = '" + str(subsystem)+ "' "
-    #count_results = VCC.Database.execute_raw_sql(count_query)
-    #total_rows = count_results[0][0] if count_results else 0
     
-    # Calculate total pages based on the number of rows and the page size
-    total_pages = 1 #(total_rows + page_size - 1) // page_size  # Using ceiling division
+    # Todo: Efficiently calculate total pages based on the number of rows and the page size (old method was slow)
+    total_pages = 1 # Placeholder value
 
     return render_template(
         "table.html",
@@ -116,12 +232,12 @@ def table_partial():
     )
 
 
-from flask import request, render_template
+
 
 @app.route("/table_ids", methods=["GET", "POST"])
 def table_ids():
     # Load parameter_ids from JSON file using your function
-    data = load_data()
+    data = ""#load_data()
     parameter_ids = data.get("parameter_ids", [])
 
     if not parameter_ids:
@@ -157,7 +273,7 @@ def table_ids():
                 "parameter_id": r[3]
             })
 
-    total_pages = (len(parameter_ids) + page_size - 1) // page_size
+    total_pages = 1
 
     return render_template(
     "table.html",

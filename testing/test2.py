@@ -31,3 +31,36 @@ aotable = VCC.Database.execute_raw_sql(str)
 for result in aotable:
     print(result)
 
+
+
+#=============================#
+# Debug functions
+
+# Returns column names of the input table
+def fetch_column_names(table_name):
+    query_str = "SELECT column_name FROM information_schema.columns WHERE table_name = '"+ table_name +"';"
+    results = VCC.Database.execute_raw_sql(query_str)
+    column_names = [col[0] for col in results]
+    return column_names
+
+# Returns all unique values of 'subsystem' column from cx_table
+def fetch_subsystems():
+    query_str = f"SELECT DISTINCT subsystem FROM cx_table;"
+    results = VCC.Database.execute_raw_sql(query_str)
+    cols = [col[0] for col in results]
+    subsystems = cols
+    return subsystems
+
+# Returns all rows/params from value table for the input subsystem
+def fetch_param_values(subsystem):
+    query_str = f"SELECT v.* FROM value_table v JOIN cx_table c ON v.parameter_id = c.parameter_id WHERE c.subsystem = '"+ subsystem +"';"
+    results = VCC.Database.execute_raw_sql(query_str)
+    return results
+
+# Query to get the total count of parameters for the given subsystem
+    #count_query = " SELECT COUNT(*) " \
+    #    "FROM value_table v " \
+    #    "JOIN cx_table c ON v.parameter_id = c.parameter_id "\
+    #    "WHERE c.subsystem = '" + str(subsystem)+ "' "
+    #count_results = VCC.Database.execute_raw_sql(count_query)
+    #total_rows = count_results[0][0] if count_results else 0

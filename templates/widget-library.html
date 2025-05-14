@@ -1,0 +1,92 @@
+<div id="template-controls" style="display: none;">
+
+    <button class="move-widget" onclick="moveWidget(event)">
+        <img src="{{ url_for('static', filename='images/icons/move.webp') }}" alt="Move">
+    </button>
+    <button class="edit-widget" onclick="editWidget(event)">
+        <img src="{{ url_for('static', filename='images/icons/lines.webp') }}" alt="Edit">
+    </button>
+    <button class="remove-widget" onclick="removeWidget(event)">
+        <img src="{{ url_for('static', filename='images/icons/bin.webp') }}" alt="Remove">
+    </button>
+    <button class="scale-widget" onclick="scaleWidget(event)">
+        <img src="{{ url_for('static', filename='images/icons/scale.webp') }}" alt="Scale">
+    </button>
+
+</div>
+
+
+
+<div id="template-widget-elements" style="display:none">
+
+    <div class="parameter-list-element">
+        <h1>Title</h1>
+    </div>
+
+</div>
+
+
+
+<div class="widget-list">
+
+    <div class="widget-container">
+        <div class="test-widget widget foreground border boxshadow">
+            <div class="editing-controls"></div>
+            Testing
+        </div>
+        <div class="info">
+            <div class="widget-title ">Test Panel</div>
+            <div class="widget-description smalltext">This widget is just for testing.</div>
+            <button class="button" onclick="createWidget(event)">ADD</button>
+        </div>
+    </div>
+
+    <div class="widget-container">
+        <div class="parameter-list-widget widget foreground border">
+            
+            <h1 class="widget-title">Parameter List</h1>
+            <div class="parameter-list-container">
+                <div class="parameter-list">
+
+                    <div class="parameter-list-element">
+                        <div class="parameter-list-title">Fuel Tank</div>
+                        <div class="parameter-list-value">85</div>
+                        <div class="parameter-list-unit">%</div>
+                    </div>
+                    <div class="parameter-list-element">
+                        <div class="parameter-list-title">Freshwater Tank</div>
+                        <div class="parameter-list-value">82</div>
+                        <div class="parameter-list-unit">%</div>
+                    </div>
+                    <div class="parameter-list-element">
+                        <div class="parameter-list-title">Greywater Tank</div>
+                        <div class="parameter-list-value">12</div>
+                        <div class="parameter-list-unit">%</div>
+                    </div>
+                    <div class="parameter-list-element">
+                        <div class="parameter-list-title">Blackwater Tank</div>
+                        <div class="parameter-list-value">5</div>
+                        <div class="parameter-list-unit">%</div>
+                    </div>
+                    <div class="parameter-list-element">
+                        <div class="parameter-list-title">Lounge Temp</div>
+                        <div class="parameter-list-value">72</div>
+                        <div class="parameter-list-unit">&deg;F</div>
+                    </div>
+                    <div class="parameter-list-element">
+                        <div class="parameter-list-title">Helm Temp</div>
+                        <div class="parameter-list-value">71</div>
+                        <div class="parameter-list-unit">&deg;F</div>
+                    </div>
+                </div>
+            </div>
+            <div class="editing-controls"></div>
+        </div>
+        <div class="info">
+            <div class="widget-title ">Standard Parameter List</div>
+            <div class="widget-description smalltext">This widget displays parameters and their values.  This widget can be scaled.</div>
+            <button class="button" onclick="createWidget(event)">ADD</button>
+        </div>
+    </div>
+
+</div>

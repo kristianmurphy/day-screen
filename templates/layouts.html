@@ -1,0 +1,88 @@
+{% if layouts %}
+    <div class="fade-in layouts-container">
+        
+        {% for layout in layouts %}
+            {% if layout.name == currentLayout %}
+                <div class="layout-box border background">
+                    <div style="display:flex; height:15px;">
+                        {% if layout.name == star_layout %}
+                            <img src="{{ url_for('static', filename='images/icons/star.webp') }}" alt="" class="starred-icon" height="15px" style="filter:invert(100%); margin-right:5px;">
+                        {% endif %}
+                        
+                        <span class="smalltext boldtext uppercase secondarycolor"> Current layout</span>
+                    </div>
+                    <div class="largetext boldtext">{{ layout.name }}</div>
+                    
+                    <div>
+                        <div class="smalltext">Created: </div>
+                        <span>{{ layout.date_created }}</span>
+                    </div>
+
+                    <div>
+                        <div class="smalltext">Last updated: </div>
+                        <span>{{ layout.date_updated }}</span>
+                    </div>
+
+                    <div>
+                        <div class="smalltext">Panels:</div>
+                        <span>{{ layout.contents | length }}</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <button class="button" onclick="editLayout('{{ layout.name }}')">EDIT</button>
+                        <button class="button" onclick="renameLayout('{{ layout.name }}')">RENAME</button>
+                        <button class="button" onclick="starLayout('{{ layout.name }}')">
+                            <img src="{{ url_for('static', filename='images/icons/star.webp') }}" alt="Star">
+                        </button>
+                        <button class="button" onclick="deleteLayout('{{ layout.name }}')">
+                            <img src="{{ url_for('static', filename='images/icons/bin.webp') }}" alt="Delete">
+                        </button>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+        {% for layout in layouts %}
+            {% if layout.name != currentLayout %}
+                <div class="layout-box">
+                    <!-- Current layout title -->
+                    <div style="display:flex; height:15px;">
+                        {% if layout.name == star_layout %}
+                            <img src="{{ url_for('static', filename='images/icons/star.webp') }}" alt="" class="starred-icon" height="15px" style="filter:invert(100%);">
+                        {% endif %}
+                        <span class="smalltext boldtext uppercase secondarycolor"></span>
+                    </div>
+                    <div class="largetext boldtext">{{ layout.name }}</div>
+                
+                    <!-- Date Created -->
+                    <div>
+                        <div class="smalltext">Created: </div>
+                        <span>{{ layout.date_created }}</span>
+                    </div>
+                
+                    <!-- Date Updated -->
+                    <div>
+                        <div class="smalltext">Last updated: </div>
+                        <span>{{ layout.date_updated }}</span>
+                    </div>
+
+                    <!-- Number of panels -->
+                    <div>
+                        <div class="smalltext">Panels:</div>
+                        <span>{{ layout.contents | length }}</span>
+                    </div>
+                
+                    <!-- Edit Buttons -->
+                    
+                    <div style="display: flex; justify-content: space-between;">
+                        <button class="button" onclick="selectLayout('{{ layout.name }}')">SELECT</button>
+                        <button class="button" onclick="editLayout('{{ layout.name }}')">EDIT</button>
+                        <button class="button" onclick="deleteLayout('{{ layout.name }}')">
+                            <img src="{{ url_for('static', filename='images/icons/bin.webp') }}" alt="Delete">
+                        </button>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% else %}
+    <div>No layouts found.</div>
+{% endif %}

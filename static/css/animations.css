@@ -1,0 +1,65 @@
+
+/* Keyframes for fade effect - Splash Screen */
+@keyframes fadeInOut {
+    0% { opacity: 0; scale:.85;}
+    20% { opacity: 1; scale:1;}
+    80% { opacity: 1; }
+    100% { opacity: 0; }
+}
+@keyframes fadeOut {
+    0% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+/* Keyframes for fade in on load - Format boxes */
+.fade-in {
+    opacity: 0; /* Start invisible */
+    animation: fadeIn 0.5s ease-in-out forwards; /* Fade-in animation */
+}
+/* Fade-in animation */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+
+
+.hammer-strike {
+    animation: hammerStrike 0.5s ease-in-out;
+}
+/* Hammer strike animation */
+@keyframes hammerStrike {
+    0% {
+        transform: rotate(0deg);
+    }
+    30% {
+        transform: rotate(-45deg); /* Strike position */
+    }
+    100% {
+        transform: rotate(0deg); /* Return to natural position */
+    }
+}
+
+
+
+.settings-rotate {
+    animation: settingsRotate 0.5s ease-in-out;
+}
+/* Settings button animation */
+@keyframes settingsRotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    50% {
+        transform: rotate(90deg); /* Rotate halfway */
+    }
+    100% {
+        transform: rotate(0deg); /* Return to natural position */
+    }
+}
+

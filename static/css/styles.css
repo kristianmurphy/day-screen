@@ -1,16 +1,22 @@
+/****************************************************/
+/* MAIN STYLES */
+
 :root {
     --text-primary-color:rgb(220, 220, 220);
     --text-secondary-color:rgb(144, 144, 144);
+
     
-    --background-color: rgb(10,10,10);
-    --foreground-color: rgb(30,30,30);
+    --background-color: rgb(15, 15, 15);
+    --foreground-color: rgb(25,25,25);
     --light-color: rgb(240,240,240);
     --border-color: rgb(100,100,100);
     --gradient-background: linear-gradient(10deg, rgb(39, 62, 71) 20%, #06121c 80%);
 
-    --primary-font-size: 1.5em;
-    --large-font-size: 2em;
-    --small-font-size: .5em;
+    --primary-font-size: 25px;
+    --large-font-size: 40px;
+    --small-font-size: 15px;
+
+    --top-bar-height: 60px;
 
     font-family: 'Inter', sans-serif; }
        @supports (font-variation-settings: normal) {
@@ -30,6 +36,35 @@ html, body {
 }
 
 
+/* Global scrollbar styles for all scrollable elements */
+
+/* For WebKit browsers (Chrome, Edge, Safari) */
+*::-webkit-scrollbar {
+    width: 16px; /* Make the scrollbar wider */
+    height: 16px; /* For horizontal scrollbars */
+}
+
+*::-webkit-scrollbar-track {
+    background: transparent; /* Hide the background */
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: grey; /* Big grey bar */
+    border-radius: 8px; /* Rounded corners */
+    border: 4px solid transparent; /* Add spacing around the thumb */
+    background-clip: padding-box; /* Ensure the border doesn't overlap the thumb */
+}
+
+/* For Firefox */
+* {
+    scrollbar-color: grey transparent; /* Thumb: grey, Track: transparent */
+    scrollbar-width: auto; /* Default width for better visibility */
+}
+
+
+/****************************************************/
+/* Style library */
+
 .background{ /* Background */
     background-color: var(--background-color);
 }
@@ -40,8 +75,14 @@ html, body {
     background: var(--gradient-background);
 }
 .border{ /* Border */
-    border: var(--border-color) .03rem solid;
+    border: var(--border-color) 1px solid;
     border-radius:20px;
+}
+.padding{
+    padding:20px;
+    padding-bottom:0px;
+    margin:0;
+    margin-left:20px;
 }
 .largetext{ /* Large Text */
     font-size: var(--large-font-size);
@@ -59,34 +100,91 @@ html, body {
     color: var(--text-secondary-color);
 }
 .boxshadow{
+    box-shadow: 6px 6px 6px rgba(0, 0, 0, 0.5);
+}
+.insetshadow{
     box-shadow: 
     6px 6px 6px rgba(0, 0, 0, 0.5),      /* outer shadow */
     inset 6px 6px 12px rgba(0, 0, 0, 0.4);  /* inner (inset) shadow */
 }
-.margin-top{
-    margin-top:1rem;
+.uppercase{
+    text-transform:uppercase;
 }
-
-
+.margin-top{
+    margin-top:60px;
+}
 .red{
     color:rgb(255,0,0);
 }
 .green{
     color:rgb(85, 170, 57);
 }
+.black{
+    color:rgb(0,0,0);
+}
+.center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
 
+.secondary-btn{
+    background: rgb(77, 77, 77);
+    color: rgb(250,250,250);
+    cursor: pointer;
+    border:none;
+    border-radius: 5px;
+    padding:5px;
+    font-size: inherit; /* Inherit font size from parent */
+    font-family: inherit; /* Inherit font family */
+    text-align: center; /* Center-align text */
+    text-decoration: none; /* Remove underline (if any) */
+    box-shadow: none; /* Remove default focus outline shadow */
+    outline: none; /* Remove focus outline */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Smooth hover effect */
+}
+.small-btn img{
+    height:25px;
+    margin:0;
+}
+.button>img{
+    height:30px;
+}
+
+.center-vertical {
+    display: flex; /* Enable Flexbox */
+    align-items: center; /* Center vertically */
+}
+
+/****************************************************/
+/* General rules */
 
 * {
     box-sizing: border-box;
 }
 
-img { display: block; }
+img {
+    display: block;
+    pointer-events: none; /* Prevent interaction with the image */
+    -webkit-user-drag: none; /* Disable dragging in Safari/Chrome */
+}
+
+.hidden{ display:none; }
+
+.noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none;  /* Safari */
+    -khtml-user-select: none;  /* Konqueror HTML */
+    -moz-user-select: none;   /* Old versions of Firefox */
+    -ms-user-select: none;   /* Internet Explorer/Edge */
+    user-select: none;      /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+}
 
 
-
-
-
+/****************************************************/
 /* Fullscreen splash */
+
 #splash-screen {
     position: absolute;
     width: 100%;
@@ -121,69 +219,106 @@ img { display: block; }
     position:relative;
     top:150px;
 }
-/* Keyframes for fade effect */
-@keyframes fadeInOut {
-    0% { opacity: 0; scale:.85;}
-    20% { opacity: 1; scale:1;}
-    80% { opacity: 1; }
-    100% { opacity: 0; }
-}
-@keyframes fadeOut {
-    0% { opacity: 1; }
-    80% { opacity: 1; }
-    100% { opacity: 0; }
-}
 
 
 
+/****************************************************/
+/* Top bar */
 
-
-
-
-
-
-
-/* Top Bar */
 #top-bar {
     top: 0;
     width: 100vw;
-    height: 60px;
-    border-bottom: var(--border-color) .03rem solid;
+    height: var(--top-bar-height);
+    border-bottom: var(--border-color) 1px solid;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0s;
+    z-index:100;
 }
-/* Left & Right Divs */
-#left-div, #right-div {
+.top-bar-left,
+.top-bar-right {
     display: flex;
-    align-items: center;
+    align-items: center; /* Vertically align items */
+    gap: 10px; /* Add spacing between buttons */
 }
-#logo {
-    height: 40px; /* Adjust size */
+
+.top-bar-center {
+    flex: 1; /* Center section takes up remaining space */
+    display: flex;
+    justify-content: center; /* Center the logo horizontally */
+    align-items: center; /* Vertically align the logo */
+    margin-left:10px;
+    margin-right:10px;
 }
-#logo-container{
-    position:absolute;
-    left:50%;
-    transform: translateX(-50%);
+
+#sobe-logo {
+    max-height: 40px; /* Ensure the logo fits within the top bar */
+    max-width: 100%; /* Prevent the logo from overflowing */
 }
+
 /* Buttons */
-.top-button {
+#edit-buttons{
+    display:flex;
+}
+.button {
+    all: unset;
     background: #ffffff;
     color: var(--text-primary-color);
     cursor: pointer;
     border-radius: 5px;
-    height:40px;
     padding:5px;
     margin: 10px;
-    
+    color:rgb(50,50,50);
+    transition: background 0.3s ease; /* Smooth hover effect */
 }
-.top-button img{
-    height:30px;
+.button:active{
+    background:rgb(200,200,200);
+}
+.top-btn img{
+    height:40px;
     margin:0;
 }
 
+/* Edit buttons conditions */
+#edit-buttons .in-edit,#cancel-edit{
+    display:none;
+    opacity:0;
+}
+#edit-buttons #start-edit{
+    display: inline-block;
+    opacity:1;
+}
+#edit-buttons.edit-menu #cancel-edit{
+    display: inline-block;
+    opacity:1;
+}
+#edit-buttons.edit-menu #start-edit{
+    display: inline-block;
+    opacity:1;
+}
+#edit-buttons.edit-active #start-edit{
+    display:none;
+    opacity:0;
+}
+#edit-buttons.edit-active .in-edit{
+    display: inline-block;
+    opacity:1;
+}
+#edit-buttons.edit-widget .button{
+    display:none;
+    opacity:0;
+}
+#edit-buttons.edit-widget #cancel-edit{
+    display: inline-block;
+    opacity:1;
+}
+#edit-buttons .button{
+    transition: opacity 0.3s ease, transform 0.3s ease; /* Smooth transition */
+}
 
+
+/* Alarm status and time */
 .top-status{
     margin-left:100px;
 }
@@ -192,231 +327,25 @@ img { display: block; }
     padding-left:6px;
     padding-right:6px;
 }
+.status-box{
+    white-space: nowrap;
+}
 .top-time{
     margin-right:100px;
 }
 
-
-
-
-#workspace{
-    display:flex;
-    width:100%;
-    height:100%;
-}
-
-
-
-
-#dashboard{
-    width:60%;
-    position: relative;
-}
-#dashboard > div{
-    width:90%;
-    margin:4%;
-}
-#sobe-sunset-image{
-    width: 100%;
-    max-width:100vh;
-}
-
-#expand-diagram{
-    background-color: var(--light-color);
-    margin:10px;
-    cursor:pointer;
-    position:absolute;
-    top:3vw;
-    left:3vw;
-    padding:4px;
-}
-#expand-image{
-    height:20px;
-    width:20px;
-    margin:2px;
-}
-
-
-#categories{
-    display: flex;
-    flex-wrap: wrap;
-    gap:10px;
-    align-items: center;
-    justify-content: center;
-}
-.category{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    padding-left: 8px;
-    padding-right:8px;
-    gap: 10px;
-    cursor:pointer;
-}
-.category:hover, .category:hover .top-button{
-    filter:invert(1);
-}
-.selected{
-    background-color:rgb(255,255,255);
-    background:rgb(255,255,255);
-    color:rgb(0,0,0);
-}
-.selected:hover, .selected:hover .top-button{
-    filter:none;
-}
-
-
-
-#special-data{
-    padding:12px;
-    height:200px;
-}
-
-
-
-
-#table-container{
-    width:40%;
-    overflow:hidden;
-    padding:12px;
-    border-left: var(--border-color) .03rem solid;
-    
-}
-.data-container{
-    width: 100%;
-    height:60%;
-    position:relative;
-
-}
-.data-component{
-    float:left;
-    width:12rem;
-    
-    flex-direction: column; /* Align content vertically */
-    justify-content: flex-end; /* Push content to the bottom */
-    justify-content: center;
-    align-items: center;
-    margin-bottom:1rem;
-}
-.comp-value{
-    text-overflow: ellipsis;
-    max-width:12rem;
-}
-.comp-name{
-    margin-left:10px;
-    font-weight:600;
-}
-.comp-info{
-    padding:10px;
-    width:230px;
-    min-height:75px;
-    overflow:hidden;
-}
-.comp-name-container{
-    height: 2rem;
-    display: flex;
-    justify-content: flex-start;
-    position:relative;
-    overflow:hidden;
-    cursor:pointer;
-}
-
-
-
-.pagination{
-    width:100%;
-    bottom:0;
-    display: flex;              /* Use flexbox layout */
-    justify-content: center;    /* Horizontally center the items */
-    align-items: center;
-    padding-top: 20px;
-}
-.pagination > a{
-    text-decoration: none;
-    color:white !important;
-}
-.pagination > span{
-    margin:10px;
-}
-
-
-.pin-container{
-    margin:0;
-}
-
-
-
-
-.gone{
-    display:none;
-}
 #alarm-box{
     width:400px;
     height:400px;
     position:absolute;
     z-index:2;
-    margin:.5rem;
+    margin:15px;
     
 }
 #alarm-test{
     cursor:pointer;
 }
 
-.noselect {
-    -webkit-touch-callout: none; /* iOS Safari */
-      -webkit-user-select: none; /* Safari */
-       -khtml-user-select: none; /* Konqueror HTML */
-         -moz-user-select: none; /* Old versions of Firefox */
-          -ms-user-select: none; /* Internet Explorer/Edge */
-              user-select: none; /* Non-prefixed version, currently
-                                    supported by Chrome, Edge, Opera and Firefox */
-}
-
-/* Storage 
-
-
-.ocean img{ 
-    width:100%;
-    position:absolute;
-}
-// Move ocean images in opposite directions 
-.ocean-image:nth-child(1) {
-    animation: oceanMoveLeft 80s linear infinite;
-}
-.ocean-image:nth-child(2) {
-    animation: oceanMoveRight 80s linear infinite;
-    opacity:0.5;
-}
-
-//Keyframes for moving effect 
-@keyframes oceanMoveLeft {
-    0% { transform: translateX(0) scaleX(-1); }
-    100% { transform: translateX(-100%) scaleX(-1);; }
-}
-@keyframes oceanMoveRight {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(0); }
-}
 
 
 
-
-@media(max-width:1200px){
-    body{
-        font-size:1.2em;
-    }
-}
-@media(max-width:1000px){
-    body{
-        font-size:1em;
-    }
-}
-@media(max-width:800px){
-    body{
-        font-size:.75em;
-    }
-}
-
-
-*/

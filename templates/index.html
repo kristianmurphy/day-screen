@@ -2,9 +2,15 @@
 <html lang="en">
 <head>
     <title>Boat Parameters</title>
+
     <link rel="stylesheet" href="{{ url_for('static', filename='fonts/inter/inter.css') }}">
+
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/workspace.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/animations.css') }}">
     
+    <script> window.appState = window.appState || {}; </script>
+
 </head>
 
 <body>
@@ -18,87 +24,78 @@
     </div>
 
     <!-- Top Bar -->
-    <div id="top-bar" class="noselect">
-        <div id="left-div">
-            <div class="top-button">
-                <img src="{{ url_for('static', filename='images/icons/home.webp') }}" alt="Home" id="home-button">
+    <div id="top-bar" class="noselect background">
+        <div class="top-bar-left top-bar-item">
+            <div id="edit-buttons">
+                <button id="start-edit" class="button top-btn start-edit">
+                    <img src="{{ url_for('static', filename='images/icons/hammer.webp') }}" alt="Edit">
+                </button>
+                <button id="cancel-edit" class="button top-btn cancel-edit in-edit">
+                    <img src="{{ url_for('static', filename='images/icons/close.webp') }}" alt="Cancel">
+                </button>
+                <button id="finish-edit" class="button top-btn in-edit">
+                    <img src="{{ url_for('static', filename='images/icons/checkmark.webp') }}" alt="Finish">
+                </button>
+                <button id="add-edit" class="button top-btn in-edit">
+                    <img src="{{ url_for('static', filename='images/icons/plus.webp') }}" alt="Add">
+                </button>
             </div>
+
             <div id="alarm-container">
-                <div id="alarm-test" onclick="toggleAlarms()"></div>
-                <div id="alarm-box" class="foreground border boxshadow">
-                    <div>Currently Active Alarms:</div>
-                    <div class="smalltext">--test--</div>
-                    <div class="margin-top">Past Alarms:</div>
-                    <div class="smalltext">--test--</div>
+                <div class="top-status">GENERAL ALARM <span id="general-alarm" class="status-box border foreground"><span class="status">OK</span> <span class="status-indicator green">●</span></span></div>
+            </div>
+            
+        </div>
+        
+        <div class="top-bar-center top-bar-item">
+            <img src="{{ url_for('static', filename='images/sobe-sunset-logo-white.webp') }}" alt="Sobe Sunset" id="sobe-logo">
+        </div>
+        
+        <div class="top-bar-right top-bar-item">
+            <div class="top-time border foreground" id="datetime">??.??.?? ??:??:??</div>
+            <button id="settings-button" onclick="openSettings()" class="button top-btn">
+                <img src="{{ url_for('static', filename='images/icons/settings.webp') }}" alt="Settings">
+            </button>
+            <button id="top-menu-button" onclick="toggleMenu()" class="button top-btn">
+                <img src="{{ url_for('static', filename='images/icons/lines.webp') }}" alt="Menu">
+            </button>
+        </div>
+
+    </div>
+
+
+    <!------------------ Workspace ------------------->
+    <div id="workspace" class="background">
+        <div id="menu-top" class="foreground menu">
+            <div id="layout-management">
+                <div class="boldtext uppercase padding center-vertical">
+                    <span class="largetext"> Layouts </span>
+                    &nbsp;
+                    <button onclick="createLayout()" class="black secondary-btn">+ NEW</button>
+                    <div id="create-new-layout">
+                        <input id="name-new-layout" type="text" placeholder="Enter layout name" class="input-box">
+                        <button id="confirm-new-layout" onclick="confirmNewLayout()" class="button small-btn">
+                            <img src="{{ url_for('static', filename='images/icons/checkmark.webp') }}" alt="Confirm">
+                        </button>
+                        <button id="cancel-new-layout" onclick="cancelNewLayout()" class="button small-btn">
+                            <img src="{{ url_for('static', filename='images/icons/close.webp') }}" alt="Cancel">
+                        </button>
+                    </div>
+                </div>
+                <div id="layouts-main"></div>
+            </div>
+            <div id="widget-selection" class="hidden">
+                <!-- Widget Libary -->
+                <div id="widget-library" class="noselect">
                 </div>
             </div>
-            
         </div>
-        
-        <div id="logo-container">
-            <img src="{{ url_for('static', filename='images/sobe-sunset-logo-white.webp') }}" alt="Sobe Sunset" id="logo">
-        </div>
-        
-        <div id="right-div">
-            <div class="top-time smalltext border foreground" id="datetime">??.??.?? ??:??:??</div>
-            <div class="top-button">
-                <img src="{{ url_for('static', filename='images/icons/settings.webp') }}" alt="Settings" id="settings-button">
-            </div>
-        </div>
-
+        <div id="menu-left" class="foreground menu"></div>
+        <div id="menu-right" class="foreground menu"></div>
+        <div id="layout"></div>
     </div>
 
-
-    <!-- Workspace -->
-    <div id="workspace">
-        <!-- Dashboard (Left side) -->
-        <div id="dashboard">
-            <!-- Sobe Sunset diagram -->
-            <div id="sobe-sunset-diagram" class="foreground gradient border">
-                <img src="{{ url_for('static', filename='images/boat-high.webp') }}" alt="Sobe Sunset" id="sobe-sunset-image">
-                <div class="expand-button border" id="expand-diagram"><img src="{{ url_for('static', filename='images/icons/expand.webp') }}" alt="Expand" id="expand-image"></div>
-            </div>
-            <div id="categories" class="dock">
-                <span class="category foreground border smalltext" onclick="change_subsystem(this, 'Solar Power System')" id="category-general">
-                    SOLAR <div class="top-button"><img src="{{ url_for('static', filename='images/icons/squares.webp') }}" alt=""></div>
-                </span>
-                <span class="category foreground border smalltext" onclick="change_subsystem(this, 'Stbd Batt')" id="category-general">
-                    BATTERY <div class="top-button"><img src="{{ url_for('static', filename='images/icons/battery.webp') }}" alt=""></div>
-                </span>
-                <span class="category foreground border smalltext" onclick="change_subsystem(this, 'Tanks')" id="category-general">
-                    TANKS <div class="top-button"><img src="{{ url_for('static', filename='images/icons/tank.webp') }}" alt=""></div>
-                </span>
-                <span class="category foreground border smalltext" onclick="change_subsystem(this, 'System')" id="category-general">
-                    LIGHT <div class="top-button"><img src="{{ url_for('static', filename='images/icons/light.webp') }}" alt=""></div>
-                </span>
-                <span class="category foreground border smalltext" onclick="change_subsystem(this, 'Air Handlers')" id="category-general">
-                    AIR <div class="top-button"><img src="{{ url_for('static', filename='images/icons/air.webp') }}" alt=""></div>
-                </span>
-                <span class="category foreground border smalltext" onclick="change_subsystem(this, '')" id="category-general">
-                    WEATHER <div class="top-button"><img src="{{ url_for('static', filename='images/icons/weather.webp') }}" alt=""></div>
-                </span>
-            </div>
-            <!-- Pinned/special data -->
-            <div id="special-data" class="foreground border">
-
-                
-
-                <div id="paramList"></div>
-                
-            </div>
-        </div>
-        
-        <!-- Data column (Right side)-->
-        <div id="table-container" class="foreground">
-            
-        </div>
-
-
-    </div>
-
-    <!-- Javascript testing -->
-    <script>
-    </script>
+    <!-- Javascript -->
     <script type="text/javascript" src="{{ url_for('static', filename='scripts/src.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='scripts/exec.js') }}"></script>
 
